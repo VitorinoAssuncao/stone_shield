@@ -23,6 +23,11 @@ class Users(BaseModel):
             'email': self.user_email
         }
 
+    def save(self,session):
+        '''Funcao responsavel por salvar os dados a serem adicionados, recebendo os novos dados (self) e a sessao atual.'''     
+        with session.begin():
+            session.add(self)
+
     @classmethod
     def get_list(cls,session):
         '''Funcao responsavel por retornar a listagem completa de Estoque (Stocks) do banco. Recebe respectivamente a classe de estoque (Stocks) e a sessao atual.'''
@@ -48,8 +53,3 @@ class Users(BaseModel):
     def delete_user(cls,session,value):
         query = session.query(cls)
         query.filter_by(user_id=value).delete()
-
-    def save(self,session):
-        '''Funcao responsavel por salvar os dados a serem adicionados, recebendo os novos dados (self) e a sessao atual.'''     
-        with session.begin():
-            session.add(self)
