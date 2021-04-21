@@ -1,7 +1,7 @@
 import falcon
 
 from app.database.manager import DBManager
-from app.resources.users import UsersCollection, UsersItem
+from app.resources.users import UsersCollection, UsersItem, UserLogin
 from app.resources.comics import ComicsCollection, ComicsUserCollection,ComicItem
 from app.resources.characthers import CharacthersCollection, CharacthersUserCollection, CharactherItem
 from app.middleware import HandleCORS
@@ -11,6 +11,7 @@ db = DBManager()
 
 users = UsersCollection(db)
 user = UsersItem(db)
+login = UserLogin(db)
 
 comics = ComicsCollection(db)
 user_comics = ComicsUserCollection(db)
@@ -21,6 +22,7 @@ user_characthers = CharacthersUserCollection(db)
 characther = CharactherItem(db)
 
 api.add_route('/users',users)
+api.add_route('/users/login',login)
 api.add_route('/users/{id}',user)
 api.add_route('/users/{id}/comics',user_comics)
 api.add_route('/users/{id}/characthers',user_characthers)

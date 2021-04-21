@@ -50,6 +50,14 @@ class Users(BaseModel):
         return models
 
     @classmethod
+    def get_user_by_login(cls,session,value):
+        models = []
+        with session.begin():
+            query = session.query(cls)
+            models = query.filter_by(user_login=value).first()
+        return models
+
+    @classmethod
     def delete_user(cls,session,value):
         query = session.query(cls)
         query.filter_by(user_id=value).delete()
