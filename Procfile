@@ -1,1 +1,1 @@
-web: gunicorn cdd.main:api
+web: gunicorn app.main:api
