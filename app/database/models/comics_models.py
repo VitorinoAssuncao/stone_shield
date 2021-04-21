@@ -20,6 +20,11 @@ class Comics(BaseModel):
             'user_id': self.hq_user_id
         }
 
+    def save(self,session):
+        '''Funcao responsavel por salvar os dados a serem adicionados, recebendo os novos dados (self) e a sessao atual.'''     
+        with session.begin():
+            session.add(self)  
+
     @classmethod
     def get_list(cls,session):
         '''Funcao responsavel por retornar a listagem completa de hq's favoritadas do banco. Recebe respectivamente a classe de hq (Comics) e a sessao atual.'''
@@ -53,4 +58,5 @@ class Comics(BaseModel):
         with session.begin():
             query = session.query(cls)
             models  = query.filter_by(hq_user_id=value).all()        
-        return models      
+        return models    
+
