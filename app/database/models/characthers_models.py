@@ -11,7 +11,7 @@ class Characthers(BaseModel):
     char_user_id = sa.Column(sa.Integer,nullable=False)
 
     def __init__(self,**args):
-        super(Comics,self).__init__(**args)
+        super(Characthers,self).__init__(**args)
 
     def serialize(self) -> dict:
         return {
@@ -19,6 +19,11 @@ class Characthers(BaseModel):
             'marvel_id': self.char_marvel_id,
             'user_id': self.char_user_id
         }
+
+    def save(self,session):
+        '''Funcao responsavel por salvar os dados a serem adicionados, recebendo os novos dados (self) e a sessao atual.'''     
+        with session.begin():
+            session.add(self) 
 
     @classmethod
     def get_list(cls,session):

@@ -20,6 +20,23 @@ class CharacthersUserCollection(BaseResource):
         resp.status = falcon.HTTP_200
         resp.media = obj
 
+    def on_post(self,req,resp,id):
+        marvel_char_id = req.media.get('marvel_id')
+        user_char_id  = id
+        try:
+            new_char = Characthers(char_user_id=user_char_id,char_marvel_id=marvel_char_id)
+            new_char.save(self.db.session)
+
+        except SQLAlchemyError:
+            raise falcon.HTTPBadRequest(
+                'Não foi possível criar o quadrinho.',
+                'Validar os dados informados'
+            )
+            
+        resp.status = falcon.HTTP_200
+        resp.media = new_char.serialize()
+
+
 class CharactherItem(BaseResource):
     def on_get(self,req,resp,id):
         char_model = Characthers.get_char_by_id(self.db.session,id).serialize()
