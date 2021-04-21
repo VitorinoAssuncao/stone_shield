@@ -25,3 +25,16 @@ class ComicItem(BaseResource):
         comic_model = Comics.get_hq_by_id(self.db.session,id).serialize()
         resp.status = falcon.HTTP_200
         resp.media = comic_model
+
+    def on_delete(self,req,resp,id):
+        try:
+            Comics.delete_comic(self.db.session,id)
+
+        except SQLAlchemyError:
+            raise falcon.HTTPBadRequest(
+                'Não foi possivel deletar o quadrinho',
+                'Validar o código informado.'
+            )
+
+        resp.status = falcon.HTTP_200
+        resp.media = "Quadrinho removido com sucesso"

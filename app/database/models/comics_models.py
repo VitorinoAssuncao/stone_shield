@@ -42,6 +42,11 @@ class Comics(BaseModel):
         return models
 
     @classmethod
+    def delete_comic(cls,session,value):
+        query = session.query(cls)
+        query.filter_by(hq_id=value).delete()
+
+    @classmethod
     def get_all_hqs_from_user(cls,session,value):
         '''Funcao responsavel por retornar responsavel por retornar a listagem de dados do comic de um usuário, recebe como chave o ID do usuário(user_id).'''
         models = []
