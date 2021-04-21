@@ -44,6 +44,11 @@ class Users(BaseModel):
             models  = query.filter_by(user_id=value).first()        
         return models
 
+    @classmethod
+    def delete_user(cls,session,value):
+        query = session.query(cls)
+        query.filter_by(user_id=value).delete()
+
     def save(self,session):
         '''Funcao responsavel por salvar os dados a serem adicionados, recebendo os novos dados (self) e a sessao atual.'''     
         with session.begin():

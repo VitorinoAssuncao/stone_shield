@@ -35,3 +35,16 @@ class UsersItem(BaseResource):
 
         resp.status = falcon.HTTP_200
         resp.media = stock_model.serialize()
+
+    def on_delete(self,req,resp,id):
+        try:
+            Users.delete_user(self.db.session,id)
+
+        except SQLAlchemyError:
+            raise falcon.HTTPBadRequest(
+                'Não foi possivel deletar o usuário',
+                'Validar o código informado.'
+            )
+
+        resp.status = falcon.HTTP_200
+        resp.media = "Usuário deletado com sucesso"
